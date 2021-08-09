@@ -15,7 +15,8 @@ def get_change():
     a = requests.get('https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT')
     json_data = json.loads(a.text)
     per = str(
-        "{0} ({1}%)".format(round(float(json_data['priceChange']), 3), round(float(json_data['priceChangePercent']), 2)))
+        "{0} ({1}%)".format(round(float(json_data['priceChange']), 3),
+                            round(float(json_data['priceChangePercent']), 2)))
     return per
 
 
@@ -31,28 +32,17 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    name = "ETH $" + str(get_price())
     global guildinf
     guildinf = message.guild.me
-    # print(name)
-
-    # if message.content.startswith('e'):
     set_name.start()
-    set_status.start()
 
 
 @loop(count=None, seconds=1)
 async def set_name():
     name = "ETH $" + str(get_price())
-    # print(name)
-    await guildinf.edit(nick=name)
-
-
-@loop(count=None, seconds=1)
-async def set_status():
     st = get_change()
-    print(st)
     await client.change_presence(activity=discord.Game(st))
+    await guildinf.edit(nick=name)
 
 
 client.run(tk)
