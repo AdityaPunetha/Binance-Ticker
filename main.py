@@ -6,7 +6,8 @@ import json
 def get_eth_price():
     a = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT')
     json_data = json.loads(a.text)
-    return json_data['price']
+    price = round(float(json_data['price']), 3)
+    return price
 
 
 client = discord.Client()
@@ -20,13 +21,14 @@ async def on_ready():
 
 
 # message.channel.send(name)
-#message.guild.me.edit(nick=name)
+# message.guild.me.edit(nick=name)
 
 @client.event
 async def on_message(message):
-    name = get_eth_price()
-    # if message.content.startswith('e'):
-    await message.guild.me.edit(nick=name)
+    if 1:
+        name = "ETH $" + str(get_eth_price())
+        # if message.content.startswith('e'):
+        await message.guild.me.edit(nick=name)
 
 
 client.run(tk)
