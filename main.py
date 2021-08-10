@@ -29,6 +29,7 @@ def get_change():
 client = discord.Client()
 print(get_price())
 tk = ''
+color = "-"
 
 
 @client.event
@@ -40,7 +41,26 @@ async def on_ready():
 @loop(count=None, seconds=1)
 async def set_name():
     name = "ETH $" + str(get_price())
-    st = get_change()[0]
+    global color
+    change = get_change()
+    st = change[0]
+    if color != change[1]:
+        color = change[1]
+        if color == "+":
+            for x in client.guilds:
+                role = x.get_role()
+                try:
+                    await x.me.add_roles(role)
+                except:
+                    pass
+        else:
+            for x in client.guilds:
+                role = x.get_role()
+                try:
+                    await x.me.add_roles(role)
+                except:
+                    pass
+
     await client.change_presence(activity=discord.Game(st))
     for i in client.guilds:
         await i.me.edit(nick=name)
