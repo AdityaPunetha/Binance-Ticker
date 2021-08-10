@@ -23,7 +23,7 @@ def get_change():
         "{2}{0} ({2}{1}%)".format(round(float(json_data['priceChange']), 3),
                                   round(float(json_data['priceChangePercent']), 2), t))
 
-    return per, a
+    return per, t
 
 
 client = discord.Client()
@@ -34,12 +34,6 @@ tk = ''
 @client.event
 async def on_ready():
     print("We have logged in as {0.user}".format(client))
-
-
-@client.event
-async def on_message(message):
-    global guildinf
-    guildinf = message.guild.me
     set_name.start()
 
 
@@ -48,7 +42,8 @@ async def set_name():
     name = "ETH $" + str(get_price())
     st = get_change()[0]
     await client.change_presence(activity=discord.Game(st))
-    await guildinf.edit(nick=name)
+    for i in client.guilds:
+        await i.me.edit(nick=name)
 
 
 client.run(tk)
