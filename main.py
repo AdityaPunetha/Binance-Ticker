@@ -48,16 +48,22 @@ async def set_name():
         color = change[1]
         if color == "+":
             for x in client.guilds:
-                role = x.get_role()
+                rrole = x.get_role(846495911135936542)
+                grole = x.get_role(846495878130958406)
                 try:
-                    await x.me.add_roles(role)
+                    await x.me.add_roles(grole)
+                    await x.me.remove_roles(rrole)
                 except:
                     pass
         else:
             for x in client.guilds:
-                role = x.get_role()
+                rrole = x.get_role(846495911135936542)
+                grole = x.get_role(846495878130958406)
+
                 try:
-                    await x.me.add_roles(role)
+                    await x.me.add_roles(rrole)
+                    await x.me.remove_roles(grole)
+
                 except:
                     pass
 
